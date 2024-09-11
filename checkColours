@@ -1,0 +1,15 @@
+helper([red,H|T]) :- H = red, helper([H|T]).
+helper([red,H|T]) :- H = white, helper([H|T]).
+helper([white,H|T]) :- H = white, helper([H|T]).
+helper([white,H|T]) :- H = blue, helper([H|T]).
+helper([blue,H|T]) :- H = blue, helper([H|T]).
+helper([blue]).
+
+checkColours([red|T]) :- helper([red|T]).
+
+checkDiagnolsHelper([],[],0).
+checkDiagnolsHelper([_],[],0).
+checkDiagnolsHelper([H],[H1|T1],X) :-  A is H + X, dif(H1,A), B is H-X, dif(B,H1), checkDiagnolsHelper([H1|T1],[],0).
+checkDiagnolsHelper([H|[H1|T]], [], 0) :- checkDiagnolsHelper([H|T],[H1],1).
+checkDiagnolsHelper([H|[H1|T]],[H2|T2], X) :- B is H + X, dif(H2, B), C is H-X, dif(C,H2), A is X + 1, checkDiagnolsHelper([H|T],[H1|[H2|T2]],A).
+checkDiagnols(R) :- checkDiagnolsHelper(R,[],0).
